@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>세이프 제주 올레 — 발표</title>
+<style>
+:root {
+  --jade:     #1E5631;
+  --jade-dk:  #0F2A18;
+  --leaf:     #3E9A5C;
+  --mist:     #E4F0E7;
+  --ink:      #1B1F1C;
+  --gray:     #5C6660;
+  --line:     #E1E6E2;
+  --paper:    #F4F7F5;
+  --white:    #FFFFFF;
+  --amber:    #C77A0A;
+  --amber-bg: #FBF0DC;
+
+  --card-bg:  var(--white);
+  --card-border: var(--line);
+  --body-bg:  var(--paper);
+  --slide-bg: var(--white);
+
+  --font: "Apple SD Gothic Neo","Noto Sans CJK KR","Noto Sans KR","Malgun Gothic","맑은 고딕",system-ui,sans-serif;
+  --t: .35s cubic-bezier(.4,0,.2,1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink:      #DDE8DF;
+    --gray:     #8A9E8E;
+    --line:     #2A3B2D;
+    --paper:    #151C16;
+    --white:    #1C2A1F;
+    --card-bg:  #1C2A1F;
+    --card-border: #2A3B2D;
+    --body-bg:  #111714;
+    --slide-bg: #1C2A1F;
+    --mist:     rgba(228,240,231,.12);
+  }
+}
+:root[data-theme="dark"] {
+  --ink:      #DDE8DF;
+  --gray:     #8A9E8E;
+  --line:     #2A3B2D;
+  --paper:    #151C16;
+  --white:    #1C2A1F;
+  --card-bg:  #1C2A1F;
+  --card-border: #2A3B2D;
+  --body-bg:  #111714;
+  --slide-bg: #1C2A1F;
+  --mist:     rgba(228,240,231,.12);
+}
+:root[data-theme="light"] {
+  --ink:      #1B1F1C;
+  --gray:     #5C6660;
+  --line:     #E1E6E2;
+  --paper:    #F4F7F5;
+  --white:    #FFFFFF;
+  --card-bg:  #FFFFFF;
+  --card-border: #E1E6E2;
+  --body-bg:  #F4F7F5;
+  --slide-bg: #FFFFFF;
+  --mist:     #E4F0E7;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font);background:var(--jade-dk)}
+
+/* ── DECK ── */
+.deck{position:relative;width:100vw;height:100vh}
+.slide{
+  position:absolute;inset:0;
+  display:flex;
+  opacity:0;pointer-events:none;
+  transition:opacity var(--t);
+  cursor:pointer;
+}
+.slide.active{opacity:1;pointer-events:all}
+
+@media (prefers-reduced-motion:reduce){
+  .slide,.progress{transition:none}
+}
+
+/* ── CHROME ── */
+.progress{
+  position:fixed;top:0;left:0;height:3px;
+  background:var(--leaf);
+  transition:width .4s ease;
+  z-index:100;
+}
+.counter{
+  position:fixed;bottom:20px;right:28px;
+  font-size:12px;font-weight:700;letter-spacing:.08em;
+  color:rgba(255,255,255,.45);
+  z-index:100;
+  text-shadow:0 1px 4px rgba(0,0,0,.4);
+}
+.hint{
+  position:fixed;bottom:20px;left:28px;
+  font-size:11px;color:rgba(255,255,255,.3);
+  z-index:100;pointer-events:none;
+}
+
+/* ── SHARED LAYOUT ── */
+.wrap{
+  width:100%;max-width:1140px;
+  margin:0 auto;padding:52px 72px;
+  display:flex;flex-direction:column;
+  justify-content:center;height:100%;
+}
+.eyebrow{
+  font-size:10px;font-weight:800;letter-spacing:.18em;
+  color:var(--leaf);margin-bottom:14px;
+}
+.sh{
+  font-size:clamp(26px,3.6vw,46px);font-weight:900;
+  letter-spacing:-.03em;line-height:1.2;
+  text-wrap:balance;color:var(--ink);
+  margin-bottom:10px;
+}
+.sdesc{font-size:16px;color:var(--gray);line-height:1.7;max-width:600px;margin-bottom:36px}
+
+/* ── SLIDE 1 ── */
+.s1{background:var(--jade);color:#fff;align-items:center}
+.s1-in{
+  width:100%;max-width:1140px;margin:0 auto;padding:0 72px;
+  display:grid;grid-template-columns:1fr 340px;
+  align-items:center;gap:40px;height:100%;
+}
+.s1-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10px;font-weight:800;letter-spacing:.14em;
+  color:#E4F0E7;background:rgba(255,255,255,.1);
+  padding:5px 14px;border-radius:999px;width:fit-content;
+  margin-bottom:22px;
+}
+.s1 h1{
+  font-size:clamp(40px,6.5vw,80px);font-weight:900;
+  letter-spacing:-.04em;line-height:1.05;
+  margin-bottom:16px;
+}
+.s1 h1 em{font-style:normal;color:#A8D4B5}
+.s1-sub{font-size:clamp(15px,1.8vw,20px);color:#C8E4CF;line-height:1.6;margin-bottom:36px}
+.s1-stats{
+  display:flex;gap:36px;
+  padding-top:28px;border-top:1px solid rgba(255,255,255,.15);
+}
+.s1-stat .n{
+  font-size:40px;font-weight:900;line-height:1;
+  font-variant-numeric:tabular-nums;letter-spacing:-.03em;
+}
+.s1-stat .l{font-size:12px;color:#A8D4B5;margin-top:4px;font-weight:600}
+.ganse-big{width:100%;aspect-ratio:1;max-width:320px;margin:auto}
+
+/* ── SLIDE 2 ── */
+.s2{background:var(--body-bg)}
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.prob-card{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:16px;padding:28px 22px;
+}
+.prob-card .ic{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;font-size:22px;
+}
+.prob-card h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:8px}
+.prob-card p{font-size:13px;color:var(--gray);line-height:1.65}
+.ic-warn{background:var(--amber-bg)}
+.ic-info{background:var(--mist)}
+
+/* ── SLIDE 3 ── */
+.s3{background:var(--slide-bg)}
+.s3-grid{
+  display:grid;grid-template-columns:300px 1fr;
+  height:100%;
+}
+.s3-left{
+  background:var(--jade);color:#fff;
+  padding:60px 44px;
+  display:flex;flex-direction:column;justify-content:center;gap:16px;
+}
+.s3-left .ey{font-size:10px;font-weight:800;letter-spacing:.14em;color:#A8D4B5}
+.s3-left h2{font-size:clamp(24px,3vw,36px);font-weight:900;letter-spacing:-.03em;line-height:1.2}
+.s3-left p{font-size:14px;color:#C8E4CF;line-height:1.7}
+.s3-right{
+  padding:60px 60px;
+  display:flex;flex-direction:column;justify-content:center;gap:22px;
+}
+.val{display:flex;align-items:flex-start;gap:18px}
+.val-ic{
+  width:40px;height:40px;flex-shrink:0;
+  border-radius:10px;background:var(--mist);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--jade);
+}
+.val-ic svg{width:20px;height:20px}
+.val h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.val p{font-size:13px;color:var(--gray);line-height:1.6}
+
+/* ── SLIDE 4 ── */
+.s4{background:var(--body-bg)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.fc{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:14px;padding:22px 18px;
+}
+.fc .fi{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--mist);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--jade);margin-bottom:12px;
+}
+.fc .fi svg{width:18px;height:18px}
+.fc h3{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px}
+.fc p{font-size:12px;color:var(--gray);line-height:1.6}
+.fc.accent{background:var(--jade);border-color:var(--jade)}
+.fc.accent h3,.fc.accent p{color:#fff}
+.fc.accent p{color:#C8E4CF}
+.fc.accent .fi{background:rgba(255,255,255,.15);color:#fff}
+
+/* ── SLIDE 5 ── */
+.s5{background:var(--slide-bg)}
+.flow{display:flex;align-items:stretch;gap:0;margin-top:4px}
+.fstep{
+  flex:1;padding:28px 18px;
+  background:var(--body-bg);border-radius:14px;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+}
+.fstep.act{background:var(--jade);color:#fff}
+.farr{
+  width:36px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--leaf);
+}
+.fstep .fn{font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--leaf);margin-bottom:10px}
+.fstep.act .fn{color:#A8D4B5}
+.fstep .fi2{font-size:30px;margin-bottom:10px}
+.fstep h3{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px}
+.fstep.act h3{color:#fff}
+.fstep p{font-size:12px;color:var(--gray);line-height:1.5}
+.fstep.act p{color:#C8E4CF}
+.s5-note{
+  margin-top:24px;padding:16px 20px;
+  background:var(--amber-bg);border-radius:10px;
+  font-size:13px;color:var(--amber);font-weight:600;
+}
+
+/* ── SLIDE 6 ── */
+.s6{background:var(--body-bg)}
+.tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tc{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:16px;padding:28px 22px;
+}
+.tc .tl{
+  font-size:10px;font-weight:800;letter-spacing:.14em;
+  color:var(--leaf);margin-bottom:10px;
+}
+.tc h3{font-size:22px;font-weight:900;color:var(--ink);margin-bottom:14px}
+.tc ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.tc li{
+  font-size:13px;color:var(--gray);
+  display:flex;align-items:center;gap:8px;
+}
+.tc li::before{
+  content:"";width:5px;height:5px;border-radius:50%;
+  background:var(--leaf);flex-shrink:0;
+}
+.tc.primary{background:var(--jade);border-color:var(--jade)}
+.tc.primary .tl{color:#A8D4B5}
+.tc.primary h3{color:#fff}
+.tc.primary li{color:#C8E4CF}
+.tc.primary li::before{background:#A8D4B5}
+
+/* ── SLIDE 7 ── */
+.s7{background:var(--slide-bg)}
+.road{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.rc{
+  border:1px solid var(--card-border);border-radius:14px;
+  padding:22px 18px;background:var(--card-bg);
+}
+.rc.now{background:var(--jade);border-color:var(--jade)}
+.rc .rp{font-size:10px;font-weight:800;letter-spacing:.12em;margin-bottom:8px}
+.rc:not(.now) .rp{color:var(--leaf)}
+.rc.now .rp{color:#A8D4B5}
+.rc .rb{
+  display:inline-block;font-size:9px;font-weight:800;
+  padding:3px 8px;border-radius:999px;margin-bottom:12px;
+}
+.rc.now .rb{background:rgba(255,255,255,.2);color:#fff}
+.rc:not(.now) .rb{background:var(--mist);color:var(--jade)}
+.rc h3{font-size:15px;font-weight:800;margin-bottom:12px}
+.rc.now h3{color:#fff}
+.rc:not(.now) h3{color:var(--ink)}
+.rc ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.rc li{font-size:12px;line-height:1.5;display:flex;gap:7px;align-items:flex-start}
+.rc.now li{color:#C8E4CF}
+.rc:not(.now) li{color:var(--gray)}
+.rc li::before{content:"·";flex-shrink:0;margin-top:1px}
+.rc.now li::before{color:#A8D4B5}
+.rc:not(.now) li::before{color:var(--leaf)}
+
+/* ── SLIDE 8 ── */
+.s8{
+  background:var(--jade-dk);color:#fff;
+  flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:0;
+}
+.s8 .ganse-sm{width:72px;height:72px;margin-bottom:28px}
+.s8 .thanks{
+  font-size:clamp(48px,8vw,88px);font-weight:900;
+  letter-spacing:-.04em;line-height:1;margin-bottom:20px;
+}
+.s8 .brand{font-size:22px;font-weight:700;color:#A8D4B5;margin-bottom:8px}
+.s8 .sub{font-size:14px;color:rgba(228,240,231,.4)}
+
+/* ── ICONS (inline SVG helpers) ── */
+svg{display:block}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter">1 / 8</div>
+<div class="hint">← → 또는 클릭으로 이동</div>
+
+<div class="deck" id="deck">
+
+<!-- ══════════════ SLIDE 1: 표지 ══════════════ -->
+<div class="slide s1 active" data-n="1">
+  <div class="s1-in">
+    <div>
+      <div class="s1-chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        JEJU VIBE CODING 2026
+      </div>
+      <h1>세이프 제주 올레<br /><em>안전하게 걷는 법</em></h1>
+      <p class="s1-sub">난이도·거리·소요시간으로 코스를 고르고,<br />인적 드문 구간을 미리 확인하세요.</p>
+      <div class="s1-stats">
+        <div class="s1-stat"><div class="n">27</div><div class="l">공식 코스</div></div>
+        <div class="s1-stat"><div class="n">437</div><div class="l">총 거리 km</div></div>
+        <div class="s1-stat"><div class="n">4</div><div class="l">지원 언어</div></div>
+        <div class="s1-stat"><div class="n">7</div><div class="l">주의 구간</div></div>
+      </div>
+    </div>
+    <!-- 간세 -->
+    <div class="ganse-big">
+      <svg viewBox="-94 -160 244 268" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="간세">
+        <ellipse cx="-4" cy="82" rx="72" ry="10" fill="rgba(255,255,255,.08)"/>
+        <polygon points="-56,-22 -78,-8 -84,34 -70,46 -62,36 -68,6 -50,2" fill="#A8D4B5"/>
+        <rect x="-42" y="26" width="20" height="52" rx="9" fill="#A8D4B5"/>
+        <rect x="20" y="26" width="20" height="52" rx="9" fill="#A8D4B5"/>
+        <rect x="-42" y="66" width="20" height="12" rx="5" fill="#1E5631"/>
+        <rect x="20" y="66" width="20" height="12" rx="5" fill="#1E5631"/>
+        <ellipse cx="-4" cy="1" rx="64" ry="45" fill="#C8E4CF"/>
+        <rect x="-20" y="30" width="20" height="52" rx="9" fill="#C8E4CF"/>
+        <rect x="38" y="30" width="20" height="52" rx="9" fill="#C8E4CF"/>
+        <rect x="-20" y="70" width="20" height="12" rx="5" fill="#1E5631"/>
+        <rect x="38" y="70" width="20" height="12" rx="5" fill="#1E5631"/>
+        <polygon points="28,-28 62,-38 86,-76 48,-86" fill="#C8E4CF"/>
+        <polygon points="50,-122 70,-130 60,-92 44,-32 24,-26 38,-72" fill="#A8D4B5"/>
+        <polygon points="34,-42 66,-50 74,-28 42,-22" fill="#C77A0A"/>
+        <ellipse cx="86" cy="-100" rx="36" ry="28" fill="#C8E4CF"/>
+        <ellipse cx="118" cy="-92" rx="22" ry="18" fill="#C8E4CF"/>
+        <ellipse cx="131" cy="-92" rx="4" ry="4" fill="#1E5631"/>
+        <polygon points="60,-122 62,-150 78,-126" fill="#C8E4CF"/>
+        <polygon points="92,-126 106,-150 108,-120" fill="#C8E4CF"/>
+        <polygon points="65,-124 67,-142 75,-127" fill="#A8D4B5"/>
+        <polygon points="94,-126 103,-142 104,-124" fill="#A8D4B5"/>
+        <polygon points="54,-120 64,-140 84,-134 76,-114" fill="#A8D4B5"/>
+        <ellipse cx="99" cy="-102" rx="7" ry="8" fill="#0F2A18"/>
+        <ellipse cx="97" cy="-105" rx="2.5" ry="2.5" fill="#fff"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SLIDE 2: 문제 ══════════════ -->
+<div class="slide s2" data-n="2">
+  <div class="wrap">
+    <div class="eyebrow">BACKGROUND</div>
+    <h2 class="sh">제주 올레길, 위험은 정보 공백에서 시작됩니다</h2>
+    <div class="prob-grid">
+      <div class="prob-card">
+        <div class="ic ic-info">🗺️</div>
+        <h3>코스 정보 분산</h3>
+        <p>27개 코스의 난이도·거리·소요시간을 한 곳에서 비교하고 필터링할 방법이 마땅치 않습니다.</p>
+      </div>
+      <div class="prob-card">
+        <div class="ic ic-info">🌐</div>
+        <h3>외국인 탐방객 언어 장벽</h3>
+        <p>연간 방문자의 상당수가 외국인이지만, 한국어 위주의 안내로 인해 정보 접근성이 낮습니다.</p>
+      </div>
+      <div class="prob-card">
+        <div class="ic ic-warn">⚠️</div>
+        <h3>한적 구간 안전 공백</h3>
+        <p>이용자가 드문 구간에서 낙상·미아 등 긴급 상황 발생 시 대응 체계가 부재합니다.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SLIDE 3: 서비스 ══════════════ -->
+<div class="slide s3" data-n="3">
+  <div class="s3-grid">
+    <div class="s3-left">
+      <div class="ey">SOLUTION</div>
+      <h2>세이프<br />제주 올레</h2>
+      <p>정보를 먼저 제공해<br />스스로 판단하고<br />안전하게 걸을 수 있도록.</p>
+    </div>
+    <div class="s3-right">
+      <div class="val">
+        <div class="val-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"/></svg>
+        </div>
+        <div>
+          <h3>27개 코스 한눈에 비교</h3>
+          <p>난이도·거리·소요시간 필터로 오늘 걸을 코스를 즉시 좁힐 수 있습니다.</p>
+        </div>
+      </div>
+      <div class="val">
+        <div class="val-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"/></svg>
+        </div>
+        <div>
+          <h3>4개 언어 즉시 전환</h3>
+          <p>한국어·영어·일본어·중국어 지원. 외국인 탐방객도 동일한 안내를 받습니다.</p>
+        </div>
+      </div>
+      <div class="val">
+        <div class="val-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+        </div>
+        <div>
+          <h3>체크인 기반 안전 확인</h3>
+          <p>코스 시작·종료 시 체크인으로 이용 현황을 기록하고 한적 구간을 알립니다.</p>
+        </div>
+      </div>
+      <div class="val">
+        <div class="val-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+        </div>
+        <div>
+          <h3>대중교통 접근 안내</h3>
+          <p>각 코스 카드에서 시작점까지 가는 버스·여객선 정보를 바로 확인합니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SLIDE 4: 기능 ══════════════ -->
+<div class="slide s4" data-n="4">
+  <div class="wrap">
+    <div class="eyebrow">FEATURES</div>
+    <h2 class="sh">6가지 핵심 기능</h2>
+    <div class="feat-grid">
+      <div class="fc accent">
+        <div class="fi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"/></svg>
+        </div>
+        <h3>지도 기반 필터링</h3>
+        <p>난이도·거리·시간으로 27개 코스를 즉시 좁혀 오늘 걸을 코스를 정할 수 있습니다.</p>
+      </div>
+      <div class="fc">
+        <div class="fi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"/></svg>
+        </div>
+        <h3>다국어 지원</h3>
+        <p>한국어·영어·일본어·중국어. 상단 언어 스위처로 언제든 전환 가능합니다.</p>
+      </div>
+      <div class="fc">
+        <div class="fi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+        </div>
+        <h3>오프라인 지도</h3>
+        <p>신호 약한 구간에 대비해 코스 데이터를 미리 내려받을 수 있습니다.</p>
+      </div>
+      <div class="fc">
+        <div class="fi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+        </div>
+        <h3>대중교통 접근 정보</h3>
+        <p>코스 카드에서 시작 지점까지의 버스·여객선 정보를 바로 확인합니다.</p>
+      </div>
+      <div class="fc">
+        <div class="fi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+        </div>
+        <h3>구간별 이용자 통계</h3>
+        <p>체크인 집계로 이용자가 적은 구간을 사전에 알려줍니다.</p>
+      </div>
+      <div class="fc">
+        <div class="fi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+        </div>
+        <h3>안전 체크인</h3>
+        <p>코스 시작·종료 시 체크인으로 이용 현황을 기록합니다.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SLIDE 5: 체크인 ══════════════ -->
+<div class="slide s5" data-n="5">
+  <div class="wrap">
+    <div class="eyebrow">SAFETY CHECK-IN</div>
+    <h2 class="sh">안전 체크인이 작동하는 방식</h2>
+    <div class="flow">
+      <div class="fstep">
+        <div class="fn">STEP 01</div>
+        <div class="fi2">🗺️</div>
+        <h3>코스 선택</h3>
+        <p>27개 코스 중 오늘 걸을 코스를 필터로 선택합니다.</p>
+      </div>
+      <div class="farr">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+      </div>
+      <div class="fstep act">
+        <div class="fn">STEP 02</div>
+        <div class="fi2">✅</div>
+        <h3>체크인</h3>
+        <p>코스 시작 시 체크인. 구글 시트에 코스·시각이 기록됩니다.</p>
+      </div>
+      <div class="farr">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+      </div>
+      <div class="fstep">
+        <div class="fn">STEP 03</div>
+        <div class="fi2">🚶</div>
+        <h3>탐방</h3>
+        <p>필요 시 오프라인 지도와 대중교통 정보를 참고하며 걷습니다.</p>
+      </div>
+      <div class="farr">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+      </div>
+      <div class="fstep">
+        <div class="fn">STEP 04</div>
+        <div class="fi2">🏁</div>
+        <h3>체크아웃</h3>
+        <p>코스 종료 시 체크아웃. 이용 통계에 반영됩니다.</p>
+      </div>
+    </div>
+    <div class="s5-note">⚠️ 수집 항목: 코스 번호 · 체크인/아웃 시각만 저장. 위치·개인정보는 수집하지 않습니다.</div>
+  </div>
+</div>
+
+<!-- ══════════════ SLIDE 6: 기술 ══════════════ -->
+<div class="slide s6" data-n="6">
+  <div class="wrap">
+    <div class="eyebrow">TECH STACK</div>
+    <h2 class="sh">단일 HTML 파일 + 구글 스프레드시트</h2>
+    <div class="tech-grid">
+      <div class="tc primary">
+        <div class="tl">FRONTEND</div>
+        <h3>olle.html</h3>
+        <ul>
+          <li>외부 프레임워크 없음</li>
+          <li>Vanilla JS + CSS 변수</li>
+          <li>다국어 i18n 내장</li>
+          <li>PWA 오프라인 대응</li>
+        </ul>
+      </div>
+      <div class="tc">
+        <div class="tl">BACKEND</div>
+        <h3>Apps Script</h3>
+        <ul>
+          <li>Google Apps Script 웹앱</li>
+          <li>doPost — 체크인 수집</li>
+          <li>doGet — 집계 조회</li>
+          <li>토큰 기반 간단 인증</li>
+        </ul>
+      </div>
+      <div class="tc">
+        <div class="tl">DATA</div>
+        <h3>Google Sheets</h3>
+        <ul>
+          <li>checkins 시트 — 원본 로그</li>
+          <li>코스 번호 · 이벤트 · 시각</li>
+          <li>10분마다 자동 집계</li>
+          <li>그래프에 실시간 반영</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SLIDE 7: 로드맵 ══════════════ -->
+<div class="slide s7" data-n="7">
+  <div class="wrap">
+    <div class="eyebrow">ROADMAP</div>
+    <h2 class="sh">정보 제공에서 실시간 안전으로</h2>
+    <div class="road">
+      <div class="rc now">
+        <div class="rp">PHASE 1</div>
+        <div class="rb">현재</div>
+        <h3>MVP · 정보 제공</h3>
+        <ul>
+          <li>27개 코스 정보 + 지도</li>
+          <li>난이도·거리·시간 필터</li>
+          <li>대중교통 안내</li>
+          <li>사전 통계 기반 한적 구간 표시</li>
+          <li>다국어 (KO·EN·JA·ZH)</li>
+        </ul>
+      </div>
+      <div class="rc">
+        <div class="rp">PHASE 2</div>
+        <div class="rb">예정</div>
+        <h3>실시간 체크인</h3>
+        <ul>
+          <li>코스 시작·종료 체크인</li>
+          <li>실시간 위치 공유</li>
+          <li>구간별 실시간 이용자 수</li>
+          <li>오프라인 지도 타일</li>
+        </ul>
+      </div>
+      <div class="rc">
+        <div class="rp">PHASE 3</div>
+        <div class="rb">예정</div>
+        <h3>안전 고도화</h3>
+        <ul>
+          <li>인적 드문 구간 진입 알림</li>
+          <li>장시간 미동 감지</li>
+          <li>보호자 자동 알림</li>
+          <li>긴급 SOS · 구조기관 연계</li>
+        </ul>
+      </div>
+      <div class="rc">
+        <div class="rp">PHASE 4</div>
+        <div class="rb">예정</div>
+        <h3>부가 서비스</h3>
+        <ul>
+          <li>완주 기록 · 스탬프</li>
+          <li>동행 매칭</li>
+          <li>주변 숙소·식당 정보</li>
+          <li>날씨·물때 연동</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SLIDE 8: 마무리 ══════════════ -->
+<div class="slide s8" data-n="8">
+  <div class="ganse-sm">
+    <svg viewBox="-94 -160 244 268" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="-56,-22 -78,-8 -84,34 -70,46 -62,36 -68,6 -50,2" fill="#A8D4B5"/>
+      <rect x="-42" y="26" width="20" height="52" rx="9" fill="#A8D4B5"/>
+      <rect x="20" y="26" width="20" height="52" rx="9" fill="#A8D4B5"/>
+      <ellipse cx="-4" cy="1" rx="64" ry="45" fill="#C8E4CF"/>
+      <rect x="-20" y="30" width="20" height="52" rx="9" fill="#C8E4CF"/>
+      <rect x="38" y="30" width="20" height="52" rx="9" fill="#C8E4CF"/>
+      <polygon points="28,-28 62,-38 86,-76 48,-86" fill="#C8E4CF"/>
+      <polygon points="50,-122 70,-130 60,-92 44,-32 24,-26 38,-72" fill="#A8D4B5"/>
+      <polygon points="34,-42 66,-50 74,-28 42,-22" fill="#C77A0A"/>
+      <ellipse cx="86" cy="-100" rx="36" ry="28" fill="#C8E4CF"/>
+      <ellipse cx="118" cy="-92" rx="22" ry="18" fill="#C8E4CF"/>
+      <ellipse cx="131" cy="-92" rx="4" ry="4" fill="#1E5631"/>
+      <polygon points="60,-122 62,-150 78,-126" fill="#C8E4CF"/>
+      <polygon points="92,-126 106,-150 108,-120" fill="#C8E4CF"/>
+      <ellipse cx="99" cy="-102" rx="7" ry="8" fill="#0F2A18"/>
+      <ellipse cx="97" cy="-105" rx="2.5" ry="2.5" fill="#fff"/>
+    </svg>
+  </div>
+  <div class="thanks">감사합니다</div>
+  <div class="brand">세이프 제주 올레</div>
+  <div class="sub">제주 올레길을 안전하게 걷는 법 · 27개 코스 · 437 km</div>
+</div>
+
+</div><!-- /deck -->
+
+<script>
+const TOTAL = 8;
+let cur = 1;
+
+const slides = document.querySelectorAll('.slide');
+const progress = document.getElementById('progress');
+const counter = document.getElementById('counter');
+
+function go(n) {
+  if (n < 1 || n > TOTAL) return;
+  slides.forEach(s => s.classList.remove('active'));
+  document.querySelector(`[data-n="${n}"]`).classList.add('active');
+  cur = n;
+  progress.style.width = (cur / TOTAL * 100) + '%';
+  counter.textContent = cur + ' / ' + TOTAL;
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(cur + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+});
+
+// Click: right half → next, left half → prev
+document.getElementById('deck').addEventListener('click', e => {
+  if (e.clientX > window.innerWidth / 2) go(cur + 1);
+  else go(cur - 1);
+});
+
+// Touch swipe
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+document.addEventListener('touchend', e => {
+  const dx = tx - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 40) go(dx > 0 ? cur + 1 : cur - 1);
+}, {passive:true});
+
+go(1);
+</script>
+</body>
+</html>
